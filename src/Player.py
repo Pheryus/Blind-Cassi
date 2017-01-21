@@ -36,13 +36,10 @@ class Player(GameObject):
         self.scale = 0.75
         self.speed = self.CONSTANT_SPEED
         self.run = False
-        self.move_rel = Point(0, 0)
 
         self.sanity = self.MAX_SANITY
 
     def movement(self):
-
-        old_pos = Point(self.dest.topleft)
 
         if pygame.key.get_pressed()[pygame.K_LSHIFT]:
             self.run = True
@@ -107,8 +104,6 @@ class Player(GameObject):
                 self.current_animation_name = "stand_up"
                 self.state = self.STATE_UP
 
-        self.move_rel = self.dest.topleft - old_pos
-
     def update(self):
 
         self.movement()
@@ -116,7 +111,17 @@ class Player(GameObject):
 
     def on_collision(self, other_go):
         # precisa rechecar a colisão se houve alguma modificação
-        if other_go.rigid and other_go.dest.colliderect(self.rect):
-            clip = other_go.dest.clip(self.rect)
-            self.move_rel = -self.move_rel.int()
-            self.dest.topleft += self.move_rel
+        if other_go.rigid and other_go.rect.colliderect(self.rect):
+            clip = other_go.rect.clip(self.rect)
+            # self.move_rel = -self.move_rel.int()
+            # self.dest.topleft += self.move_rel
+            rect = self.rect
+            if rect.left == clip.left:
+                self.dest.left += clip.width
+            elif rect.right == clip.right:
+                self.dest.left -= clip.width
+            if rect.top == clip.top:
+                self.dest.top += clip.height
+            elif rect.bottom == clip.bottom:
+                self.dest.top -= clip.height
+
