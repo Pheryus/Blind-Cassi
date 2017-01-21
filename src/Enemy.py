@@ -12,20 +12,15 @@ class Enemy(GameObject):
     AGGRO_VISION = 300
     AGGRO_AUDITION = 600
 
-    def __init__(self, game_data, pos, state):
-        GameObject.__init__(self, None, game_data)
+    def __init__(self, game_data, pos):
+        self.animation_names = ['up', 'down', 'left', 'right']
+        GameObject.__init__(self, 'monster', game_data)
 
-        #self.animation_names = ['stand_up', 'stand_down', 'stand_left', 'stand_right',
-         #                   'walking_left', 'walking_right', 'walking_down', 'walking_up']
         self._layer = 2
-
+        self.current_animation_name = 'down'
 
         self.dest = pygame.Rect(pos[0], pos[1], 0, 0)
-        #self.scale = 0.5
-        self.state = state
-
-    def render(self):
-        pass
+        self.scale = 3
 
     def update(self):
         pass

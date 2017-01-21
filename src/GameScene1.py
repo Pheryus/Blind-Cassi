@@ -22,7 +22,7 @@ class GameScene1(Scene):
         self.game_objects.append(Player(game_data))
         self.game_objects.append(DebugInfo(game_data))
 
-        self.game_objects.append(Enemy(game_data, (700, 900), 4))
+        self.game_objects.append(Enemy(game_data, (500, 500)))
 
         self.tilemap = TileMap("mapa", game_data)
         Scene.start(self, game_data)
@@ -41,7 +41,7 @@ class Vision(GameObject):
         GameObject.__init__(self, None, game_data)
         self.vel_expansion = 1.4
         self.surface = pygame.Surface((1920, 1080))
-        self.surface.set_alpha(200)   #DEBUG
+        self.surface.set_alpha(240)   #DEBUG
         self.surface.set_colorkey((0, 255, 0))
         self.dest = pygame.Rect(0, 0, 0, 0)
         self.position = Point(0, 0)
