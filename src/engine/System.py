@@ -22,7 +22,7 @@ class System:
         pygame.init()
 
         # centraliza a janela no monitor
-        os.environ['SDL_VIDEO_CENTERED'] = 'true'
+        #os.environ['SDL_VIDEO_CENTERED'] = 'true'
 
         # cria a surface que o jogo enxerga, com o tamanho fake
         self.screen = pygame.Surface(SCREEN_SIZE)

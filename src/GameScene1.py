@@ -5,7 +5,7 @@ from engine import Scene, GameObject, Point, Physics
 from DebugInfo import DebugInfo
 from Player import Player
 
-from src.engine.TileMap import TileMap
+from engine.TileMap import TileMap
 
 
 class GameScene1(Scene):

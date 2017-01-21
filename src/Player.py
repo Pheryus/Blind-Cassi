@@ -17,7 +17,7 @@ class Player(GameObject):
     STATE_PLAYING_ELECTRIC_GUITAR = 10
     STATE_PLAYING_KEYBOARD = 11
 
-    CONSTANT_SPEED = 50
+    CONSTANT_SPEED = 50 * 60
 
     def __init__(self, game_data):
 
@@ -40,10 +40,10 @@ class Player(GameObject):
 
         if pygame.key.get_pressed()[pygame.K_LSHIFT]:
             self.run = True
-            self.speed = self.CONSTANT_SPEED * 1.5
+            self.speed = self.CONSTANT_SPEED * 1.5 * self.system.delta_time / 1000
         else:
             self.run = False
-            self.speed = self.CONSTANT_SPEED
+            self.speed = self.CONSTANT_SPEED * self.system.delta_time / 1000
 
         if pygame.key.get_pressed()[pygame.K_LEFT]:
             self.dest[0] -= self.speed
