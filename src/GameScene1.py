@@ -4,6 +4,7 @@ from random import random, choice
 from engine import Scene, GameObject, Point, Physics
 from DebugInfo import DebugInfo
 from Player import Player
+from engine.manegers import Sound
 
 from engine.TileMap import TileMap
 
@@ -37,6 +38,7 @@ class Vision(GameObject):
         GameObject.__init__(self, None, game_data)
         self.vel_expansion = 1.4
         self.surface = pygame.Surface((1920, 1080))
+        self.surface.set_alpha(200)   #DEBUG
         self.surface.set_colorkey((0, 255, 0))
         self.dest = pygame.Rect(0, 0, 0, 0)
         self.position = Point(0, 0)
@@ -48,6 +50,7 @@ class Vision(GameObject):
 
     def render(self):
         pygame.gfxdraw.box(self.surface, pygame.Rect(0,0, 1920, 1080), (0, 0, 0))
+
 
         #r1
         pygame.gfxdraw.filled_circle(self.surface, self.position.x, self.position.y, int(self.r1), (0, 255, 0))
@@ -65,6 +68,7 @@ class Vision(GameObject):
                     #self.position = Point(960, 540)
                     self.position = Point(self.scene.get_gos_with_tag("player")[0].dest.center) - self.system.camera.topleft
                     self.state = self.STATE_LIGHTUP
+                    ##################
                     self.dest.topleft = self.position - Point(self.r_limit, self.r_limit)
                     self.dest.size = Point(self.r_limit, self.r_limit) * 2
 
