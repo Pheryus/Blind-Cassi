@@ -62,9 +62,11 @@ class Vision(GameObject):
         for event in self.system.get_events():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    self.position = Point(960, 540)
-                    self.position = Point(self.scene.get_gos_with_tag("player")[0].dest.center)
+                    #self.position = Point(960, 540)
+                    self.position = Point(self.scene.get_gos_with_tag("player")[0].dest.center) - self.system.camera.topleft
                     self.state = self.STATE_LIGHTUP
+                    self.dest.topleft = self.position - Point(self.r_limit, self.r_limit)
+                    self.dest.size = Point(self.r_limit, self.r_limit) * 2
 
 
     def lightdown(self):
@@ -72,6 +74,7 @@ class Vision(GameObject):
         if self.r2 >= self.r_limit:
             self.r1 = self.r2 = 0
             self.state = self.STATE_DARKNESS
+            self.dest = pygame.Rect(0, 0, 0, 0)
 
 
     def lightup(self):
