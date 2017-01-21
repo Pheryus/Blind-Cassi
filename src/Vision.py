@@ -12,6 +12,7 @@ class Vision(GameObject):
 
     def __init__(self, game_data):
         GameObject.__init__(self, None, game_data)
+
         self.vel_expansion = 1.4
         self.tags.append("music")
         self.surface = pygame.Surface((1920, 1080))

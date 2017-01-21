@@ -22,12 +22,18 @@ class Player(GameObject):
     MAX_SANITY = 100
 
 
+
+
     def __init__(self, game_data):
 
         self.animation_names = ['stand_up', 'stand_down', 'stand_left', 'stand_right',
                             'walking_left', 'walking_right', 'walking_down', 'walking_up', 'playing']
 
         GameObject.__init__(self, "player", game_data)
+
+        self.instrument_index = 2
+        self.instruments = [["eletronica", False], ["sertanejo", False], ["rock", True]]
+
         self.state = self.STATE_LEFT
         self._layer = 2
         self.tags.append("player")
@@ -41,6 +47,13 @@ class Player(GameObject):
 
         self.sanity = self.MAX_SANITY
 
+    def change_instrument(self):
+        if self.instruments[(self.instrument_index+1) % 3][1]:
+            self.instrument_index = (self.instrument_index + 1) % 3
+
+        elif self.instruments[(self.instrument_index+2) % 3][1]:
+            self.instrument_index = (self.instrument_index + 2) % 3
+
     def movement(self):
 
         if pygame.key.get_pressed()[pygame.K_LSHIFT]:
@@ -49,6 +62,9 @@ class Player(GameObject):
         else:
             self.run = False
             self.speed = self.CONSTANT_SPEED * self.system.delta_time / 1000
+
+        if pygame.key.get_pressed()[pygame.K_LCTRL]:
+            self.change_instrument()
 
         move = False
 
