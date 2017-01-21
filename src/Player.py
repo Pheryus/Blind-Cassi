@@ -32,6 +32,8 @@ class Player(GameObject):
         self._layer = 2
         self.tags.append("player")
 
+        self.dest = pygame.Rect(1000, 500, 0, 0)
+        self.scale = 0.5
         self.dest = pygame.Rect(1500, 500, 0, 0)
         self.scale = 0.75
         self.speed = self.CONSTANT_SPEED
@@ -122,10 +124,10 @@ class Player(GameObject):
             rect = self.rect
             if rect.left == clip.left and self.state == self.STATE_WALKING_LEFT:
                 self.dest.x += clip.width
-            elif rect.right == clip.right and self.state == self.STATE_WALKING_RIGHT:
+            if rect.right == clip.right and self.state == self.STATE_WALKING_RIGHT:
                 self.dest.x -= clip.width
             if rect.top == clip.top and self.state == self.STATE_WALKING_UP:
                 self.dest.y += clip.height
-            elif rect.bottom == clip.bottom and self.state == self.STATE_WALKING_DOWN:
+            if rect.bottom == clip.bottom and self.state == self.STATE_WALKING_DOWN:
                 self.dest.y -= clip.height
 

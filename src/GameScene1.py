@@ -73,7 +73,7 @@ class Vision(GameObject):
                     self.dest.topleft = self.position - Point(self.r_limit, self.r_limit)
                     self.dest.size = Point(self.r_limit, self.r_limit) * 2
                     ##################
-                    Sound.play('rock.wav')
+                    self.system.sounds.play('rock')
 
 
     def lightdown(self):
@@ -83,8 +83,6 @@ class Vision(GameObject):
             self.state = self.STATE_DARKNESS
             self.dest = pygame.Rect(0, 0, 0, 0)
 
-
-
     def lightup(self):
         self.r1 += self.vel_expansion * self.system.delta_time
 
@@ -92,13 +90,12 @@ class Vision(GameObject):
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     self.state = self.STATE_LIGHTDOWN
-                    Sound.fadeout(1000)
-
+                    self.system.sounds.fadeout('rock', 1000)
 
         if self.r1 >= self.r_limit:
             self.r1 = self.r_limit
             self.state = self.STATE_LIGHTDOWN
-            Sound.fadeout(1000)
+            self.system.sounds.fadeout('rock', 1000)
 
 
     def update(self):
