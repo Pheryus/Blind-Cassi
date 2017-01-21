@@ -6,7 +6,7 @@ from pygame.rect import Rect
 
 from engine import Scene, GameObject, Point, Physics
 from DebugInfo import DebugInfo
-from Player import Player
+from Player import Player, Instrument
 from Enemy import Enemy
 from Vision import Vision
 from engine.managers import Sound
@@ -29,7 +29,7 @@ class GameScene1(Scene):
         self.game_objects.append(MusicIcon(game_data))
 
         self.game_objects.append(Enemy(game_data, (500, 500)))
-
+        self.game_objects.append(Instrument(game_data))
         self.tilemap = TileMap("mapa", game_data)
         Scene.start(self, game_data)
         self.system.camera_target = self.game_objects[1]

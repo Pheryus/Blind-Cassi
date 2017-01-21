@@ -35,7 +35,7 @@ class Player(GameObject):
         self.state = self.STATE_LEFT
         self._layer = 2
         self.tags.append("player")
-
+        self.instrument_ref = None
         self.dest = pygame.Rect(83 * 48, 52 * 48, 0, 0)
         self.scale = 0.75
         self.speed = self.CONSTANT_SPEED
@@ -44,12 +44,6 @@ class Player(GameObject):
         self.sanity = self.MAX_SANITY
         self.last_pos = self.dest.topleft
 
-    def change_instrument(self):
-        if self.instruments[(self.instrument_index+1) % 3][1]:
-            self.instrument_index = (self.instrument_index + 1) % 3
-
-        elif self.instruments[(self.instrument_index+2) % 3][1]:
-            self.instrument_index = (self.instrument_index + 2) % 3
 
     def movement(self):
         self.last_pos = self.dest.topleft
@@ -60,9 +54,6 @@ class Player(GameObject):
         else:
             self.run = False
             self.speed = self.CONSTANT_SPEED * self.system.delta_time / 1000
-
-        if pygame.key.get_pressed()[pygame.K_LCTRL]:
-            self.change_instrument()
 
         move = False
 
@@ -120,7 +111,23 @@ class Player(GameObject):
                 self.current_animation_name = "stand_up"
                 self.state = self.STATE_UP
 
+    def check_instrument(self):
+        if pygame.key.get_pressed()[pygame.K_LCTRL]:
+            if self.instruments[(self.instrument_index + 1) % 3][1]:
+                self.instrument_index = (self.instrument_index + 1) % 3
+                self.instrument_ref.current_animation_name = self.instruments[self.instrument_index][0]
+
+            elif self.instruments[(self.instrument_index + 2) % 3][1]:
+                self.instrument_index = (self.instrument_index + 2) % 3
+                self.instrument_ref.current_animation_name = self.instruments[self.instrument_index][0]
+
     def update(self):
+        if not self.instrument_ref:
+            a = self.scene.get_gos_with_tag("instrument")
+            if a:
+                self.instrument_ref = a
+        else:
+            self.check_instrument()
 
         self.movement()
         GameObject.update(self)

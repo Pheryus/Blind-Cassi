@@ -73,7 +73,6 @@ class Enemy(GameObject):
             self.get_player_ref()
 
         elif self.vision_field() or self.listen():
-            print("o bicho ta maluco!")
             self.sanity_drop()
 
         GameObject.update(self)
