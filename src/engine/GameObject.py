@@ -77,7 +77,9 @@ class GameObject(Sprite):
     @property
     def rect(self):
         if self.scale:
-            if self.src:
+            if self.animation:
+                return Rect(self.dest.topleft, Point(self.animation.get_src_size()) * self.scale)
+            elif self.src:
                 return Rect(self.dest.topleft, Point(self.src.size) * self.scale)
             else:
                 return Rect(self.dest.topleft, Point(self.system.get_image_size(self.id)) * self.scale)

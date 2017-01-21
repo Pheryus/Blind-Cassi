@@ -61,7 +61,7 @@ class Vision(GameObject):
         pygame.gfxdraw.filled_circle(self.surface, self.position.x, self.position.y, int(self.r2), (0, 0, 0))
 
         self.system.screen.blit(self.surface, (0, 0))
-        # pass
+        pass
 
     def darkness(self):
         for event in self.system.get_events():
@@ -112,4 +112,9 @@ class Vision(GameObject):
 
         elif self.state is self.STATE_LIGHTDOWN:
             self.lightdown()
+
+        for event in self.system.get_events():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_f:
+                    self.system.set_fullscreen(True)
 

@@ -33,12 +33,11 @@ class Player(GameObject):
         self.tags.append("player")
 
         self.dest = pygame.Rect(1500, 500, 0, 0)
-        self.scale = 0.5
+        self.scale = 0.75
         self.speed = self.CONSTANT_SPEED
         self.run = False
 
         self.sanity = self.MAX_SANITY
-
 
     def movement(self):
 
@@ -48,7 +47,6 @@ class Player(GameObject):
         else:
             self.run = False
             self.speed = self.CONSTANT_SPEED * self.system.delta_time / 1000
-
 
         move = False
 
@@ -110,3 +108,20 @@ class Player(GameObject):
 
         self.movement()
         GameObject.update(self)
+
+    def on_collision(self, other_go):
+        # precisa rechecar a colisão se houve alguma modificação
+        if other_go.rigid and other_go.rect.colliderect(self.rect):
+            clip = other_go.rect.clip(self.rect)
+            # self.move_rel = -self.move_rel.int()
+            # self.dest.topleft += self.move_rel
+            rect = self.rect
+            if rect.left == clip.left:
+                self.dest.left += clip.width
+            elif rect.right == clip.right:
+                self.dest.left -= clip.width
+            if rect.top == clip.top:
+                self.dest.top += clip.height
+            elif rect.bottom == clip.bottom:
+                self.dest.top -= clip.height
+
