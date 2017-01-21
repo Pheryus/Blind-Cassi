@@ -1,10 +1,60 @@
 from pygame.mixer import music
+from pygame.mixer import Sound
 import os
+from os.path import isdir
+from os import listdir
 import sys
 
 GAME_DIR = os.path.dirname(os.path.abspath(sys.argv[0])) + "/../"
 MUSIC_PATH = GAME_DIR + "/etc/sound/"
+SHARED_FOLDER = "shared/"
+FORMATS_SUPPORTED = ['mp3', 'wav', 'ogg']
 
+
+class Sound:
+    def __init__(self):
+        self.path = MUSIC_PATH
+        self.songs = dict()
+        self.load(SHARED_FOLDER)
+
+    def load(self, folder):
+        if folder[-1] != '/':
+            folder += "/"
+        # se pasta existe e é realmente uma pasta
+        if isdir(self.path + folder):
+            files = listdir(self.path + folder)
+            # pra cada arquivo na pasta
+            for file in files:
+                name = file[:-4]
+                extension = file[-3:]
+                # testa se a extensão é uma dessas 3
+                if extension in FORMATS_SUPPORTED:
+                    # carrega a imagem e põe no dicionario
+                    self.songs[name] = Sound(self.path + folder + file)
+
+    def unload(self, folder):
+        if folder[-1] != '/':
+            folder += "/"
+        # se pasta existe e é realmente uma pasta
+        if isdir(self.path + folder):
+            files = listdir(self.path + folder)
+            # pra cada arquivo na pasta
+            for file in files:
+                name = file[:-4]
+                extension = file[-3:]
+                # testa se a extensão é uma dessas 3
+                if extension in FORMATS_SUPPORTED:
+                    # carrega a imagem e põe no dicionario
+                    self.songs.pop(name)
+
+    def play(self, song):
+        self.songs[song].play()
+
+    def stop(self, song):
+        self.songs[song].stop()
+
+    def fadeout(self, song, time):
+        self.songs[song].fadeout(time)
 
 def play(song, loops=-1, start=0.0):
     volume = get_volume()
