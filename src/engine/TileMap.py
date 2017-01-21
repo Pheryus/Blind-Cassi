@@ -13,6 +13,7 @@ class TileMap:
         self.name = name
         self.layers = list()
         self.load_json(TEXTURESPEC_PATH + self.game_data['scene'].name + "/" + name + ".json")
+        self.graph = None
         for layer in self.layers:
             self.game_data['scene'].layers.add(*layer, layer=self.layers.index(layer))
 
@@ -25,6 +26,7 @@ class TileMap:
         self.tile_width = dic['tilewidth']
         self.tile_height = dic['tileheight']
         self.properties = list()
+        self.graph = [[True for i in range(self.width)] for j in range(self.height)]
 
         #tileset = self.game_data['system'].texturespecs.specs[self.name]['tileset']
         self.tilesets = dict()
@@ -67,7 +69,7 @@ class TileMap:
             tile_nums = layer['data']
             for j in range(height):
                 for i in range(width):
-                    tile_num = tile_nums[j * height + i] - 1
+                    tile_num = tile_nums[j * width + i] - 1
                     if tile_num >= 0:
                         image_name = None
                         for _name, data in self.tilesets.items():
@@ -85,9 +87,12 @@ class TileMap:
                         tile_num = str(tile_num)
                         properties = self.tilesets[image_name]['properties']
                         if properties and properties.get(tile_num):
-                            go_tile.tags.append(properties[tile_num]['tag'])
+                            if properties[tile_num].get('tag'):
+                                go_tile.tags.append(properties[tile_num]['tag'])
                             if properties[tile_num].get('rigid'):
                                 go_tile.rigid = properties[tile_num]['rigid']
+                                if go_tile.rigid:
+                                    self.graph[j][i] = False
                         new_layer.append(go_tile)
         elif layer['type'] == 'imagelayer':
             image_name = layer['image'][layer['image'].rfind('/') + 1 : layer['image'].rfind('.')]
@@ -103,3 +108,41 @@ class TileMap:
     def move_layer(self, layer, offset):
         for tile in self.layers[layer]:
             tile.dest.topleft += Point(offset)
+
+    def get_shortest_path(self, ini, fim):
+        ini = Point(ini[0] // self.tile_width, ini[1] // self.tile_height).int()
+        fim = Point(fim[0] // self.tile_width, fim[1] // self.tile_height).int()
+        if not self.graph[fim.y][fim.x]:
+            return []
+
+        queue = [ini]
+        inside = lambda p: p.x in range(self.width) and p.y in range(self.height)
+        dic = {'visited': False, 'distance': float('inf'), 'previous': None}
+        spt = {ini: dic.copy()}
+        spt[ini]['distance'] = 0
+        vizinhos = (Point(-1, 0), Point(0, 1), Point(1, 0), Point(0, -1))
+
+        while len(queue) > 0:
+            pos = queue.pop(0)
+            if pos == fim:
+                continue
+            spt[pos]['visited'] = True
+            for viz in vizinhos:
+                viz = pos + viz
+                if inside(viz):
+                    if not spt.get(viz):
+                        spt[viz] = dic.copy()
+                    elif spt[viz]['visited']:
+                        continue
+                    if spt[pos]['distance'] + 1 < spt[viz]['distance']:
+                        spt[viz]['distance'] = spt[pos]['distance'] + 1
+                        spt[viz]['previous'] = pos
+                        if queue.count(viz) == 0:
+                            queue.append(viz)
+
+        pos = fim
+        while pos != ini:
+            queue.append(pos)
+            pos = spt[pos]['previous']
+        queue.reverse()
+        return queue

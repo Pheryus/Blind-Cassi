@@ -2,6 +2,7 @@ from pygame.mask import Mask
 from pygame.sprite import Sprite
 from pygame import Rect, Surface
 
+from engine.Point import Point
 from engine.Animation import Animation
 
 
@@ -75,7 +76,13 @@ class GameObject(Sprite):
 
     @property
     def rect(self):
-        return self.dest
+        if self.scale:
+            if self.src:
+                return Rect(self.dest.topleft, Point(self.src.size) * self.scale)
+            else:
+                return Rect(self.dest.topleft, Point(self.system.get_image_size(self.id)) * self.scale)
+        else:
+            return self.dest
 
     @property
     def image(self):
