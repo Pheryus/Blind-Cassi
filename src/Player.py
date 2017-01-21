@@ -40,8 +40,10 @@ class Player(GameObject):
         self.run = False
 
         self.sanity = self.MAX_SANITY
+        self.last_pos = self.dest.topleft
 
     def movement(self):
+        self.last_pos = self.dest.topleft
 
         if pygame.key.get_pressed()[pygame.K_LSHIFT]:
             self.run = True
@@ -118,16 +120,43 @@ class Player(GameObject):
     def on_collision(self, other_go):
         # precisa rechecar a colisão se houve alguma modificação
         if other_go.rigid and other_go.rect.colliderect(self.rect):
-            clip = other_go.rect.clip(self.rect)
-            # self.move_rel = -self.move_rel.int()
-            # self.dest.topleft += self.move_rel
-            rect = self.rect
-            if rect.left == clip.left and self.state == self.STATE_WALKING_LEFT:
-                self.dest.x += clip.width
-            if rect.right == clip.right and self.state == self.STATE_WALKING_RIGHT:
-                self.dest.x -= clip.width
-            if rect.top == clip.top and self.state == self.STATE_WALKING_UP:
-                self.dest.y += clip.height
-            if rect.bottom == clip.bottom and self.state == self.STATE_WALKING_DOWN:
-                self.dest.y -= clip.height
-
+            # rect = self.rect
+            # clip = other_go.rect.clip(self.rect)
+            # # self.move_rel = -self.move_rel.int()
+            # # self.dest.topleft += self.move_rel
+            # if rect.left == clip.left and self.state == self.STATE_WALKING_LEFT:
+            #     self.dest.x += clip.width
+            # elif rect.right == clip.right and self.state == self.STATE_WALKING_RIGHT:
+            #     self.dest.x -= clip.width
+            # elif rect.top == clip.top and self.state == self.STATE_WALKING_UP:
+            #     self.dest.y += clip.height
+            # elif rect.bottom == clip.bottom and self.state == self.STATE_WALKING_DOWN:
+            #     self.dest.y -= clip.height
+            #
+            # rect = self.rect
+            # clip = other_go.rect.clip(self.rect)
+            # if rect.left == clip.left and self.state in (self.STATE_WALKING_RIGHT,self.STATE_WALKING_DOWN, self.STATE_WALKING_UP):
+            #     self.dest.x += clip.width
+            #
+            # rect = self.rect
+            # clip = other_go.rect.clip(self.rect)
+            # if rect.right == clip.right and self.state in (self.STATE_WALKING_LEFT,self.STATE_WALKING_DOWN, self.STATE_WALKING_UP):
+            #     self.dest.x -= clip.width
+            #
+            # rect = self.rect
+            # clip = other_go.rect.clip(self.rect)
+            # if rect.top == clip.top and self.state in (self.STATE_WALKING_RIGHT,self.STATE_WALKING_LEFT, self.STATE_WALKING_DOWN):
+            #     self.dest.y += clip.height
+            #
+            # rect = self.rect
+            # clip = other_go.rect.clip(self.rect)
+            # if rect.bottom == clip.bottom and self.state in (self.STATE_WALKING_RIGHT,self.STATE_WALKING_LEFT, self.STATE_WALKING_UP):
+            #     self.dest.y -= clip.height
+            move_rel = Point(self.dest.topleft) - Point(self.last_pos)
+            while other_go.rect.colliderect(self.rect) and move_rel != Point(0, 0):
+                if move_rel.x:
+                    self.dest.x -= move_rel.x / abs(move_rel.x)
+                    move_rel.x += - move_rel.x / abs(move_rel.x)
+                if move_rel.y:
+                    self.dest.y -= move_rel.y / abs(move_rel.y)
+                    move_rel.y += - move_rel.y / abs(move_rel.y)

@@ -66,6 +66,7 @@ class TileMap:
         width = layer['width']
         offset = Point(layer['x'], layer['y'])
         if layer['type'] == 'tilelayer':
+            rigid_layer = layer.get('properties') and layer['properties']['rigid']
             tile_nums = layer['data']
             for j in range(height):
                 for i in range(width):
@@ -86,6 +87,9 @@ class TileMap:
 
                         tile_num = str(tile_num)
                         properties = self.tilesets[image_name]['properties']
+                        if rigid_layer:
+                            go_tile.rigid = True
+                            self.graph[j][i] = False
                         if properties and properties.get(tile_num):
                             if properties[tile_num].get('tag'):
                                 go_tile.tags.append(properties[tile_num]['tag'])

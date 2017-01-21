@@ -1,0 +1,21 @@
+{
+    "width": 224,
+    "height": 224,
+    "tilewidth": 112,
+    "tileheight": 112,
+    "tilecount": 4,
+    "animations": {
+        "no_music": {
+            "time": 100,
+            "tiles": [0]
+        },
+        "playing": {
+            "time": 100,
+            "tiles": [3]
+        },
+        "cooldown": {
+            "time": 100,
+            "tiles": [2]
+        }
+    }
+}
