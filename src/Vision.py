@@ -113,6 +113,5 @@ class Vision(GameObject):
                 if event.key == pygame.K_f:
                     self.system.set_fullscreen(True)
 
-
     #def render(self):
      #   self.system.draw_geom("box", rect = self.rect, color = (0,255,0,150), fixed = True)

@@ -1,5 +1,8 @@
 import pygame
 from random import random, choice
+
+from pygame.rect import Rect
+
 from engine import Scene, GameObject, Point, Physics
 
 class Player(GameObject):
@@ -149,3 +152,17 @@ class Player(GameObject):
                 if move_rel.y:
                     self.dest.y -= move_rel.y / abs(move_rel.y)
                     move_rel.y += - move_rel.y / abs(move_rel.y)
+
+
+class Instrument (GameObject):
+
+    def __init__(self, game_data):
+
+        self.animation_names = ["guitar", "electric_guitar", "keyboard"]
+
+        GameObject.__init__(self, "instruments", game_data)
+        self.fixed = True
+        self._layer = 3
+        self.current_animation_name = "guitar"
+        self.dest = Rect(1800, 900, 0, 0)
+        self.scale = 1
