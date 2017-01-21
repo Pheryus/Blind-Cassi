@@ -19,20 +19,25 @@ class Player(GameObject):
 
     CONSTANT_SPEED = 10 * 60
 
+    MAX_SANITY = 100
+
+
     def __init__(self, game_data):
 
         self.animation_names = ['stand_up', 'stand_down', 'stand_left', 'stand_right',
-                            'walking_left', 'walking_right', 'walking_down', 'walking_up']
+                            'walking_left', 'walking_right', 'walking_down', 'walking_up', 'playing']
 
         GameObject.__init__(self, "player", game_data)
         self.state = self.STATE_LEFT
         self._layer = 2
         self.tags.append("player")
 
-        self.dest = pygame.Rect(500, 500, 0, 0)
+        self.dest = pygame.Rect(1500, 500, 0, 0)
         self.scale = 0.5
         self.speed = self.CONSTANT_SPEED
         self.run = False
+
+        self.sanity = self.MAX_SANITY
 
 
     def movement(self):
@@ -44,9 +49,13 @@ class Player(GameObject):
             self.run = False
             self.speed = self.CONSTANT_SPEED * self.system.delta_time / 1000
 
+
+        move = False
+
         if pygame.key.get_pressed()[pygame.K_LEFT]:
+            move = True
             self.dest[0] -= self.speed
-            if self.state is self.STATE_LEFT or self.STATE_WALKING_LEFT:
+            if self.state in (self.STATE_LEFT, self.STATE_WALKING_LEFT):
                 self.state = self.STATE_WALKING_LEFT
                 self.current_animation_name = "walking_left"
             else:
@@ -54,8 +63,9 @@ class Player(GameObject):
                 self.current_animation_name = "stand_left"
 
         elif pygame.key.get_pressed()[pygame.K_RIGHT]:
+            move = True
             self.dest[0] += self.speed
-            if self.state is self.STATE_RIGHT or self.STATE_WALKING_RIGHT:
+            if self.state in (self.STATE_RIGHT, self.STATE_WALKING_RIGHT):
                 self.state = self.STATE_WALKING_RIGHT
                 self.current_animation_name = "walking_right"
             else:
@@ -63,8 +73,9 @@ class Player(GameObject):
                 self.current_animation_name = "stand_right"
 
         if pygame.key.get_pressed()[pygame.K_UP]:
+            move = True
             self.dest[1] -= self.speed
-            if self.state is self.STATE_UP or self.STATE_WALKING_UP:
+            if self.state in  (self.STATE_UP, self.STATE_WALKING_UP):
                 self.state = self.STATE_WALKING_UP
                 self.current_animation_name = "walking_up"
             else:
@@ -72,6 +83,7 @@ class Player(GameObject):
                 self.current_animation_name = "stand_up"
 
         elif pygame.key.get_pressed()[pygame.K_DOWN]:
+            move = True
             self.dest[1] += self.speed
             if self.state is self.STATE_DOWN or self.STATE_WALKING_DOWN:
                 self.state = self.STATE_WALKING_DOWN
@@ -80,6 +92,19 @@ class Player(GameObject):
                 self.state = self.STATE_DOWN
                 self.current_animation_name = "stand_down"
 
+        if not move:
+            if self.state is self.STATE_WALKING_LEFT:
+                self.current_animation_name = "stand_left"
+                self.state = self.STATE_LEFT
+            elif self.state is self.STATE_WALKING_DOWN:
+                self.state = self.STATE_DOWN
+                self.current_animation_name = "stand_down"
+            elif self.state is self.STATE_WALKING_RIGHT:
+                self.current_animation_name = "stand_right"
+                self.state = self.STATE_RIGHT
+            elif self.state is self.STATE_WALKING_UP:
+                self.current_animation_name = "stand_up"
+                self.state = self.STATE_UP
 
     def update(self):
 
