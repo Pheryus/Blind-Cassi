@@ -4,6 +4,7 @@ from random import random, choice
 from engine import Scene, GameObject, Point, Physics
 from DebugInfo import DebugInfo
 from Player import Player
+from Enemy import Enemy
 from engine.managers import Sound
 
 from engine.TileMap import TileMap
@@ -20,6 +21,8 @@ class GameScene1(Scene):
         self.game_objects.append(Vision(game_data))
         self.game_objects.append(Player(game_data))
         self.game_objects.append(DebugInfo(game_data))
+
+        self.game_objects.append(Enemy(game_data, (700, 900), 4))
 
         self.tilemap = TileMap("mapa", game_data)
         Scene.start(self, game_data)
