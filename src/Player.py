@@ -37,7 +37,7 @@ class Player(GameObject):
         self.state = self.STATE_LEFT
         self._layer = 2
         self.tags.append("player")
-
+        self.instrument_ref = None
         self.dest = pygame.Rect(1000, 500, 0, 0)
         self.scale = 0.5
         self.dest = pygame.Rect(1500, 500, 0, 0)
@@ -47,12 +47,6 @@ class Player(GameObject):
 
         self.sanity = self.MAX_SANITY
 
-    def change_instrument(self):
-        if self.instruments[(self.instrument_index+1) % 3][1]:
-            self.instrument_index = (self.instrument_index + 1) % 3
-
-        elif self.instruments[(self.instrument_index+2) % 3][1]:
-            self.instrument_index = (self.instrument_index + 2) % 3
 
     def movement(self):
 
@@ -62,9 +56,6 @@ class Player(GameObject):
         else:
             self.run = False
             self.speed = self.CONSTANT_SPEED * self.system.delta_time / 1000
-
-        if pygame.key.get_pressed()[pygame.K_LCTRL]:
-            self.change_instrument()
 
         move = False
 
@@ -122,7 +113,23 @@ class Player(GameObject):
                 self.current_animation_name = "stand_up"
                 self.state = self.STATE_UP
 
+    def check_instrument(self):
+        if pygame.key.get_pressed()[pygame.K_LCTRL]:
+            if self.instruments[(self.instrument_index + 1) % 3][1]:
+                self.instrument_index = (self.instrument_index + 1) % 3
+                self.instrument_ref.current_animation_name = self.instruments[self.instrument_index][0]
+
+            elif self.instruments[(self.instrument_index + 2) % 3][1]:
+                self.instrument_index = (self.instrument_index + 2) % 3
+                self.instrument_ref.current_animation_name = self.instruments[self.instrument_index][0]
+
     def update(self):
+        if not self.instrument_ref:
+            a = self.scene.get_gos_with_tag("instrument")
+            if a:
+                self.instrument_ref = a
+        else:
+            self.check_instrument()
 
         self.movement()
         GameObject.update(self)
@@ -133,11 +140,9 @@ class Player(GameObject):
             self.sanity = 0
             pass
 
-
     def render(self):
         self.system.draw_geom('box', rect=self.rect, color=(0,0,0))
         GameObject.render(self)
-
 
     def on_collision(self, other_go):
         # precisa rechecar a colisão se houve alguma modificação
@@ -155,11 +160,18 @@ class Player(GameObject):
             if rect.bottom == clip.bottom and self.state == self.STATE_WALKING_DOWN:
                 self.dest.y -= clip.height
 
-
-
-
 class Instrument (GameObject):
 
-
     def __init__(self, game_data):
+        self.animation_names = ['electric_guitar', 'keyboard', 'guitar']
+        GameObject.__init__(self, "instruments", game_data)
+        self.tags.append("instrument")
+        self.dest = pygame.Rect(1800, 900, 0, 0)
+        self.scale = 1
+        self._layer = 5
+        self.fixed = True
+        self.player_ref = None
+
+
+
 
