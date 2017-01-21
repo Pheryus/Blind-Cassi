@@ -49,7 +49,7 @@ class MusicIcon(GameObject):
         self._layer = 10
 
     def update(self):
-        vision = self.scene.get_gos_with_tag('vision')[0]
+        vision = self.scene.get_gos_with_tag('music')[0]
 
         if self.state is self.STATE_NO_MUSIC:
             if vision.state is vision.STATE_LIGHTUP:
@@ -69,16 +69,10 @@ class MusicIcon(GameObject):
         GameObject.update(self)
 
     def render(self):
-        vision = self.scene.get_gos_with_tag('vision')[0]
-
+        vision = self.scene.get_gos_with_tag('music')[0]
+        # TODO fazer sonzinhos
         GameObject.render(self)
 
-class Vision(GameObject):
-
-    STATE_DARKNESS = 1
-    STATE_LIGHTUP = 2
-    STATE_LIGHTDOWN = 3
-    STATE_COOLDOWN = 4
 class Brain(GameObject):
 
     def __init__(self, game_data):
@@ -86,7 +80,7 @@ class Brain(GameObject):
 
         self.tags.append("brain")
         self._layer = 12
-        self.dest = Rect(100, 150, 0, 0)
+        self.dest = Rect(10, 20, 0, 0)
         self.scale = 0.5
         self.fixed = True
         self.player_ref = None

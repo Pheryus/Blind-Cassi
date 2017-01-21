@@ -91,7 +91,7 @@ class Scene:
             if type(obj) is dict:
                 self.event_queue.remove(obj)
             else:
-                self.game_objects.remove(go)
+                self.game_objects.remove(obj)
 
         for go in self.game_objects:
             if go.updatable:

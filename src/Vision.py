@@ -9,6 +9,7 @@ class Vision(GameObject):
     STATE_DARKNESS = 1
     STATE_LIGHTUP = 2
     STATE_LIGHTDOWN = 3
+    STATE_COOLDOWN = 4
 
     def __init__(self, game_data):
         GameObject.__init__(self, None, game_data)
@@ -16,20 +17,17 @@ class Vision(GameObject):
         self.vel_expansion = 1.4
         self.tags.append("music")
         self.surface = pygame.Surface((1920, 1080))
-        self.surface.set_alpha(240)   #DEBUG
+        self.surface.set_alpha(150)   #DEBUG
         self.surface.set_colorkey((0, 255, 0))
         self.dest = pygame.Rect(0, 0, 0, 0)
-
         self.player_ref = None
-
-
-
         self.position = Point(0, 0)
         self.r1 = 0
         self.r2 = 0
         self._layer = 9
         self.r_limit = 1000
         self.state = self.STATE_DARKNESS
+        self.cooldown_time = 0
 
     def render(self):
         pygame.gfxdraw.box(self.surface, pygame.Rect(0,0, 1920, 1080), (0, 0, 0))
@@ -61,12 +59,13 @@ class Vision(GameObject):
         self.r2 += self.vel_expansion * self.system.delta_time
         if self.r2 >= self.r_limit:
             self.r1 = self.r2 = 0
-            self.state = self.STATE_DARKNESS
+            self.state = self.STATE_COOLDOWN
             self.dest = pygame.Rect(0, 0, 0, 0)
 
     def lightup(self):
 
         expansion = self.vel_expansion * self.system.delta_time
+        self.cooldown_time += self.system.delta_time
 
         self.r1 += expansion
         center = self.dest.center
@@ -77,12 +76,18 @@ class Vision(GameObject):
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     self.state = self.STATE_LIGHTDOWN
-                    self.system.sounds.fadeout('rock', 1000)
+                    self.system.sounds.fadeout('rock', self.cooldown_time)
 
         if self.r1 >= self.r_limit:
             self.r1 = self.r_limit
             self.state = self.STATE_LIGHTDOWN
-            self.system.sounds.fadeout('rock', 1000)
+            self.system.sounds.fadeout('rock', self.cooldown_time)
+
+    def cooldown(self):
+        self.cooldown_time -= self.system.delta_time
+        if self.cooldown_time <= 0:
+            self.state = self.STATE_DARKNESS
+            self.cooldown_time = 0
 
     def update(self):
 
@@ -99,6 +104,9 @@ class Vision(GameObject):
 
         elif self.state is self.STATE_LIGHTDOWN:
             self.lightdown()
+
+        elif self.state is self.STATE_COOLDOWN:
+            self.cooldown()
 
         for event in self.system.get_events():
             if event.type == pygame.KEYDOWN:
