@@ -33,14 +33,16 @@ class Player(GameObject):
         self.tags.append("player")
 
         self.dest = pygame.Rect(1500, 500, 0, 0)
-        self.scale = 0.5
+        self.scale = 0.75
         self.speed = self.CONSTANT_SPEED
         self.run = False
+        self.move_rel = Point(0, 0)
 
         self.sanity = self.MAX_SANITY
 
-
     def movement(self):
+
+        old_pos = Point(self.dest.topleft)
 
         if pygame.key.get_pressed()[pygame.K_LSHIFT]:
             self.run = True
@@ -48,7 +50,6 @@ class Player(GameObject):
         else:
             self.run = False
             self.speed = self.CONSTANT_SPEED * self.system.delta_time / 1000
-
 
         move = False
 
@@ -106,7 +107,16 @@ class Player(GameObject):
                 self.current_animation_name = "stand_up"
                 self.state = self.STATE_UP
 
+        self.move_rel = self.dest.topleft - old_pos
+
     def update(self):
 
         self.movement()
         GameObject.update(self)
+
+    def on_collision(self, other_go):
+        # precisa rechecar a colisão se houve alguma modificação
+        if other_go.rigid and other_go.dest.colliderect(self.rect):
+            clip = other_go.dest.clip(self.rect)
+            self.move_rel = -self.move_rel.int()
+            self.dest.topleft += self.move_rel

@@ -157,6 +157,9 @@ class System:
                     scene.state = Scene.STATE_FINISHED
             elif event.type is pygame.VIDEORESIZE:
                 self.set_window(Point(event.size))
+        if pygame.key.get_pressed()[pygame.K_LALT] and pygame.key.get_pressed()[pygame.K_F4]:
+            for scene in self.scene_stack:
+                scene.state = Scene.STATE_FINISHED
 
         if self.camera_target:
             self.move_camera(Point(self.camera_target.dest.center) - Point(self.camera.center))
