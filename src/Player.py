@@ -156,3 +156,10 @@ class Player(GameObject):
                 self.dest.y -= clip.height
 
 
+
+
+class Instrument (GameObject):
+
+
+    def __init__(self, game_data):
+

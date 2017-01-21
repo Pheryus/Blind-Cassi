@@ -54,7 +54,7 @@ class Brain(GameObject):
 
     def render(self):
         if self.player_ref:
-            self.system.draw_font(str(self.player_ref.sanity)[:4], "8bit16.ttf", 30, Point(self.rect.midtop),
+            self.system.draw_font(str(self.player_ref.sanity)[:2], "8bit16.ttf", 30, Point(self.rect.midtop),
                                   color = (255, 255, 255), centered=False, fixed=True)
         GameObject.render(self)
 
