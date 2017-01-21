@@ -10,9 +10,10 @@ class LayerRender(LU):
         :param system: objeto System
         :return: list de Rects
         """
-        rect_list = list()
+        #rect_list = list()
+        camera = system.camera
         for sprite in self.sprites():
             if sprite.renderable:
                 sprite.render()
-                rect_list.append(sprite.dest)
-        return rect_list
+                #rect_list.append(sprite.dest)
+        #return rect_list

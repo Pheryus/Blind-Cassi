@@ -7,6 +7,7 @@ from engine.Scene import Scene
 from engine.managers.Texture import Texture
 from engine.managers.Font import Font
 from engine.managers.TextureSpec import TextureSpec
+from engine.managers.Sound import Sound
 
 # tamanho fake da tela. Todos os objetos pensam que a tela tem esse tamanho
 SCREEN_SIZE = Point(1920, 1080)
@@ -56,6 +57,7 @@ class System:
         self.textures = Texture(GAME_DIR)
         self.fonts = Font(GAME_DIR)
         self.texturespecs = TextureSpec(GAME_DIR)
+        self.sounds = Sound()
 
         # Clock
         self.clock = pygame.time.Clock()
@@ -190,9 +192,6 @@ class System:
         # Se um retangulo de origem nao foi definido, pega o da textura
         if not src:
             src = texture.get_rect()
-        # Se o retangulo de origem for difente do da textura, pega a porção
-        elif src != texture.get_rect():
-            texture = texture.subsurface(src)
 
         # Calcula tamanho de destino a partir de escala
         if scale is not None:
@@ -204,6 +203,10 @@ class System:
         if not self.camera.colliderect(dest):
             # retangulo da imagem esta fora da camera
             return
+
+        # Se o retangulo de origem for difente do da textura, pega a porção
+        if src != texture.get_rect():
+            texture = texture.subsurface(src)
 
         # Se a posição é relativa a câmera
         if not fixed:
@@ -345,10 +348,12 @@ class System:
     def load_assets(self, name):
         self.textures.load(name)
         self.texturespecs.load(name)
+        self.sounds.load(name)
 
     def unload_assets(self, name):
         self.textures.unload(name)
         self.texturespecs.unload(name)
+        self.sounds.unload(name)
 
     def register_last_frame(self):
         self.textures.surfaces['last_frame'] = pygame.Surface(SCREEN_SIZE)

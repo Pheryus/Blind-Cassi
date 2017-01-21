@@ -1,5 +1,5 @@
 from pygame.mixer import music
-from pygame.mixer import Sound
+from pygame.mixer import Sound as pygame_sound
 import os
 from os.path import isdir
 from os import listdir
@@ -30,7 +30,7 @@ class Sound:
                 # testa se a extensão é uma dessas 3
                 if extension in FORMATS_SUPPORTED:
                     # carrega a imagem e põe no dicionario
-                    self.songs[name] = Sound(self.path + folder + file)
+                    self.songs[name] = pygame_sound(self.path + folder + file)
 
     def unload(self, folder):
         if folder[-1] != '/':
@@ -55,6 +55,9 @@ class Sound:
 
     def fadeout(self, song, time):
         self.songs[song].fadeout(time)
+
+    def set_volume(self, song, value):
+        self.songs[song].set_volume(value)
 
 def play(song, loops=-1, start=0.0):
     volume = get_volume()
