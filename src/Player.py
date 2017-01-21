@@ -17,7 +17,7 @@ class Player(GameObject):
     STATE_PLAYING_ELECTRIC_GUITAR = 10
     STATE_PLAYING_KEYBOARD = 11
 
-    CONSTANT_SPEED = 50 * 60
+    CONSTANT_SPEED = 10 * 60
 
     def __init__(self, game_data):
 

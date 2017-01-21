@@ -42,28 +42,28 @@ class Vision(GameObject):
         self.position = Point(0, 0)
         self.r1 = 0
         self.r2 = 0
-        self._layer = 2
+        self._layer = 9
         self.r_limit = 1000
         self.state = self.STATE_DARKNESS
 
     def render(self):
-        # pygame.gfxdraw.box(self.surface, pygame.Rect(0,0, 1920, 1080), (0, 0, 0))
-        #
-        # #r1
-        # pygame.gfxdraw.filled_circle(self.surface, self.position.x, self.position.y, int(self.r1), (0, 255, 0))
-        #
-        # #r2
-        # pygame.gfxdraw.filled_circle(self.surface, self.position.x, self.position.y, int(self.r2), (0, 0, 0))
-        #
-        # self.system.screen.blit(self.surface, (0, 0))
-        pass
+        pygame.gfxdraw.box(self.surface, pygame.Rect(0,0, 1920, 1080), (0, 0, 0))
+
+        #r1
+        pygame.gfxdraw.filled_circle(self.surface, self.position.x, self.position.y, int(self.r1), (0, 255, 0))
+
+        #r2
+        pygame.gfxdraw.filled_circle(self.surface, self.position.x, self.position.y, int(self.r2), (0, 0, 0))
+
+        self.system.screen.blit(self.surface, (0, 0))
+        # pass
 
     def darkness(self):
         for event in self.system.get_events():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.position = Point(960, 540)
-                    # self.position = self.scene.get_gos_with_tag("player")[0].dest.center
+                    self.position = Point(self.scene.get_gos_with_tag("player")[0].dest.center)
                     self.state = self.STATE_LIGHTUP
 
 
