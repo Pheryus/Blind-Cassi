@@ -20,7 +20,7 @@ class TextureTestScene(Scene):
         self.game_objects.append(Target(game_data))
 
         self.game_objects.append(DebugInfo(game_data))
-        self.tilemap = TileMap('teste', game_data)
+        self.tilemap = TileMap('tiles', game_data)
         Scene.start(self, game_data)
 
         self.system.camera_target = self.game_objects[-2]

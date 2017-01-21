@@ -18,8 +18,10 @@ class GameScene1(Scene):
         #self.game_objects
         self.game_objects.append(Vision(game_data))
         self.game_objects.append(Player(game_data))
+
         self.tilemap = TileMap("mapa", game_data)
         Scene.start(self, game_data)
+        self.system.camera_target = self.game_objects[1]
 
 
 

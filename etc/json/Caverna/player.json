@@ -1,8 +1,8 @@
 {
-    "width": 1600,
-    "height": 2400,
-    "tilewidth": 400,
-    "tileheight": 600,
+    "width": 640,
+    "height": 960,
+    "tilewidth": 160,
+    "tileheight": 240,
     "tilecount": 16,
     "animations": {
         "walking_down": {
