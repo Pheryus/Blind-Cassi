@@ -35,7 +35,6 @@ class Player(GameObject):
         self.run = False
 
 
-
     def movement(self):
 
         if pygame.key.get_pressed()[pygame.K_LSHIFT]:
