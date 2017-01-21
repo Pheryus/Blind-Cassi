@@ -40,6 +40,7 @@ class Vision(GameObject):
     def __init__(self, game_data):
         GameObject.__init__(self, None, game_data)
         self.vel_expansion = 1.4
+        self.tags.append("music")
         self.surface = pygame.Surface((1920, 1080))
         self.surface.set_alpha(240)   #DEBUG
         self.surface.set_colorkey((0, 255, 0))
@@ -70,8 +71,7 @@ class Vision(GameObject):
                     #self.position = Point(960, 540)
                     self.position = Point(self.scene.get_gos_with_tag("player")[0].dest.center) - self.system.camera.topleft
                     self.state = self.STATE_LIGHTUP
-                    self.dest.topleft = self.position - Point(self.r_limit, self.r_limit)
-                    self.dest.size = Point(self.r_limit, self.r_limit) * 2
+                    self.dest.center = self.position
                     ##################
                     Sound.play('rock.wav')
 
@@ -83,14 +83,25 @@ class Vision(GameObject):
             self.state = self.STATE_DARKNESS
             self.dest = pygame.Rect(0, 0, 0, 0)
 
+    def enemy_listen(self):
 
+        for i in self.scene.get_gos_with_tag("enemy1"):
+            if i.listen(self.rect):
+                print("ouviu")
 
     def lightup(self):
-        self.r1 += self.vel_expansion * self.system.delta_time
+
+        expansion = self.vel_expansion * self.system.delta_time
+
+        self.r1 += expansion
+        center = self.dest.center
+        self.dest.size += Point(expansion, expansion)
+        self.dest.center = center
 
         for event in self.system.get_events():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
+                    self.enemy_listen()
                     self.state = self.STATE_LIGHTDOWN
                     Sound.fadeout(1000)
 
