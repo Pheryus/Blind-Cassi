@@ -203,7 +203,7 @@ class System:
             else:
                 dest = pygame.Rect(dest, Point(src.size) * scale)
 
-        if not self.camera.colliderect(dest):
+        if not self.camera.colliderect(dest) and not fixed:
             # retangulo da imagem esta fora da camera
             return
 

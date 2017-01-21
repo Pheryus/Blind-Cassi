@@ -110,10 +110,18 @@ class Player(GameObject):
 
         self.movement()
         GameObject.update(self)
+        self.check_sanity()
+
+    def check_sanity(self):
+        if self.sanity < 0:
+            self.sanity = 0
+            pass
+
 
     def render(self):
         self.system.draw_geom('box', rect=self.rect, color=(0,0,0))
         GameObject.render(self)
+
 
     def on_collision(self, other_go):
         # precisa rechecar a colisão se houve alguma modificação
@@ -130,4 +138,5 @@ class Player(GameObject):
                 self.dest.y += clip.height
             if rect.bottom == clip.bottom and self.state == self.STATE_WALKING_DOWN:
                 self.dest.y -= clip.height
+
 
