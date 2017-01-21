@@ -1,9 +1,9 @@
 {
     "width": 640,
-    "height": 960,
+    "height": 1200,
     "tilewidth": 160,
     "tileheight": 240,
-    "tilecount": 16,
+    "tilecount": 17,
     "animations": {
         "walking_down": {
             "time": 100,
@@ -36,6 +36,10 @@
       "stand_right" : {
         "time" : 20,
         "tiles" : [15]
+      },
+      "playing" : {
+        "time" : 20,
+        "tiles" : [16]
       }
 
     }

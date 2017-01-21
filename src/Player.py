@@ -25,7 +25,7 @@ class Player(GameObject):
     def __init__(self, game_data):
 
         self.animation_names = ['stand_up', 'stand_down', 'stand_left', 'stand_right',
-                            'walking_left', 'walking_right', 'walking_down', 'walking_up']
+                            'walking_left', 'walking_right', 'walking_down', 'walking_up', 'playing']
 
         GameObject.__init__(self, "player", game_data)
         self.state = self.STATE_LEFT
