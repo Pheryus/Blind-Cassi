@@ -1,10 +1,14 @@
 
 import pygame
 from random import random, choice
+
+from pygame.rect import Rect
+
 from engine import Scene, GameObject, Point, Physics
 from DebugInfo import DebugInfo
 from Player import Player
 from Enemy import Enemy
+from Vision import Vision
 from engine.managers import Sound
 
 from engine.TileMap import TileMap
@@ -21,6 +25,7 @@ class GameScene1(Scene):
         self.game_objects.append(Vision(game_data))
         self.game_objects.append(Player(game_data))
         self.game_objects.append(DebugInfo(game_data))
+        self.game_objects.append(Brain(game_data))
         self.game_objects.append(MusicIcon(game_data))
 
         self.game_objects.append(Enemy(game_data, (500, 500)))
@@ -74,90 +79,27 @@ class Vision(GameObject):
     STATE_LIGHTUP = 2
     STATE_LIGHTDOWN = 3
     STATE_COOLDOWN = 4
+class Brain(GameObject):
 
     def __init__(self, game_data):
-        GameObject.__init__(self, None, game_data)
-        self.vel_expansion = 10 * 60
-        self.surface = pygame.Surface((1920, 1080))
-        self.surface.set_alpha(240)   #DEBUG
-        self.surface.set_colorkey((0, 255, 0))
-        self.dest = pygame.Rect(0, 0, 0, 0)
-        self.position = Point(0, 0)
-        self.r1 = 0
-        self.r2 = 0
-        self._layer = 9
-        self.r_limit = 1000
-        self.cooldown_time = 0
-        self.state = self.STATE_DARKNESS
-        self.tags.append('vision')
+        GameObject.__init__(self, "cerebro", game_data)
 
-    def render(self):
-        pygame.gfxdraw.box(self.surface, pygame.Rect(0,0, 1920, 1080), (0, 0, 0))
-
-        #r1
-        pygame.gfxdraw.filled_circle(self.surface, self.position.x, self.position.y, int(self.r1), (0, 255, 0))
-
-        #r2
-        pygame.gfxdraw.filled_circle(self.surface, self.position.x, self.position.y, int(self.r2), (0, 0, 0))
-
-        self.system.screen.blit(self.surface, (0, 0))
-        pass
-
-    def darkness(self):
-        for event in self.system.get_events():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    #self.position = Point(960, 540)
-                    self.position = Point(self.scene.get_gos_with_tag("player")[0].dest.center) - self.system.camera.topleft
-                    self.state = self.STATE_LIGHTUP
-                    self.dest.topleft = self.position - Point(self.r_limit, self.r_limit)
-                    self.dest.size = Point(self.r_limit, self.r_limit) * 2
-                    ##################
-                    self.system.sounds.play('rock')
-
-
-    def lightdown(self):
-        self.r2 += self.vel_expansion * self.system.delta_time / 1000
-        if self.r2 >= self.r_limit:
-            self.r1 = self.r2 = 0
-            self.state = self.STATE_COOLDOWN
-            self.dest = pygame.Rect(0, 0, 0, 0)
-            self.cooldown_time *= 0.92
-
-
-
-    def lightup(self):
-        self.r1 += self.vel_expansion * self.system.delta_time / 1000
-        self.cooldown_time += self.system.delta_time
-
-        for event in self.system.get_events():
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE:
-                    self.state = self.STATE_LIGHTDOWN
-                    self.system.sounds.fadeout('rock', self.cooldown_time)
-
-        if self.r1 >= self.r_limit:
-            self.r1 = self.r_limit
-            self.state = self.STATE_LIGHTDOWN
-            self.system.sounds.fadeout('rock', self.cooldown_time)
-
-    def cooldown(self):
-        self.cooldown_time -= self.system.delta_time
-        if self.cooldown_time <= 0:
-            self.cooldown_time = 0
-            self.state = self.STATE_DARKNESS
+        self.tags.append("brain")
+        self._layer = 12
+        self.dest = Rect(100, 150, 0, 0)
+        self.scale = 0.5
+        self.fixed = True
+        self.player_ref = None
+        self.font_surface = pygame.Surface((100, 100))
 
     def update(self):
 
-        if self.state is self.STATE_DARKNESS:
-            self.darkness()
+        if not self.player_ref:
+            self.player_ref = self.scene.get_gos_with_tag("player")[0]
 
-        elif self.state is self.STATE_LIGHTUP:
-            self.lightup()
-
-        elif self.state is self.STATE_LIGHTDOWN:
-            self.lightdown()
-
-        elif self.state is self.STATE_COOLDOWN:
-            self.cooldown()
+    def render(self):
+        if self.player_ref:
+            self.system.draw_font(str(self.player_ref.sanity)[:2], "8bit16.ttf", 30, Point(self.rect.midtop),
+                                  color = (255, 255, 255), centered=False, fixed=True)
+        GameObject.render(self)
 
