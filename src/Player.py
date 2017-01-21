@@ -109,6 +109,10 @@ class Player(GameObject):
         self.movement()
         GameObject.update(self)
 
+    def render(self):
+        self.system.draw_geom('box', rect=self.rect, color=(0,0,0))
+        GameObject.render(self)
+
     def on_collision(self, other_go):
         # precisa rechecar a colisão se houve alguma modificação
         if other_go.rigid and other_go.rect.colliderect(self.rect):
@@ -116,12 +120,12 @@ class Player(GameObject):
             # self.move_rel = -self.move_rel.int()
             # self.dest.topleft += self.move_rel
             rect = self.rect
-            if rect.left == clip.left:
-                self.dest.left += clip.width
-            elif rect.right == clip.right:
-                self.dest.left -= clip.width
-            if rect.top == clip.top:
-                self.dest.top += clip.height
-            elif rect.bottom == clip.bottom:
-                self.dest.top -= clip.height
+            if rect.left == clip.left and self.state == self.STATE_WALKING_LEFT:
+                self.dest.x += clip.width
+            elif rect.right == clip.right and self.state == self.STATE_WALKING_RIGHT:
+                self.dest.x -= clip.width
+            if rect.top == clip.top and self.state == self.STATE_WALKING_UP:
+                self.dest.y += clip.height
+            elif rect.bottom == clip.bottom and self.state == self.STATE_WALKING_DOWN:
+                self.dest.y -= clip.height
 
