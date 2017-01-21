@@ -4,7 +4,7 @@ from random import random, choice
 from engine import Scene, GameObject, Point, Physics
 from DebugInfo import DebugInfo
 from Player import Player
-from engine.manegers import Sound
+from engine.managers import Sound
 
 from engine.TileMap import TileMap
 
@@ -68,9 +68,9 @@ class Vision(GameObject):
                     #self.position = Point(960, 540)
                     self.position = Point(self.scene.get_gos_with_tag("player")[0].dest.center) - self.system.camera.topleft
                     self.state = self.STATE_LIGHTUP
-                    ##################
                     self.dest.topleft = self.position - Point(self.r_limit, self.r_limit)
                     self.dest.size = Point(self.r_limit, self.r_limit) * 2
+                    ##################
 
 
     def lightdown(self):
