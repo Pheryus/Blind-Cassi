@@ -71,9 +71,10 @@ class Vision(GameObject):
                     #self.position = Point(960, 540)
                     self.position = Point(self.scene.get_gos_with_tag("player")[0].dest.center) - self.system.camera.topleft
                     self.state = self.STATE_LIGHTUP
-                    self.dest.center = self.position
+                    self.dest.topleft = self.position - Point(self.r_limit, self.r_limit)
+                    self.dest.size = Point(self.r_limit, self.r_limit) * 2
                     ##################
-                    Sound.play('rock.wav')
+                    self.system.sounds.play('rock')
 
 
     def lightdown(self):
@@ -83,11 +84,7 @@ class Vision(GameObject):
             self.state = self.STATE_DARKNESS
             self.dest = pygame.Rect(0, 0, 0, 0)
 
-    def enemy_listen(self):
 
-        for i in self.scene.get_gos_with_tag("enemy1"):
-            if i.listen(self.rect):
-                print("ouviu")
 
     def lightup(self):
 
@@ -103,13 +100,12 @@ class Vision(GameObject):
                 if event.key == pygame.K_SPACE:
                     self.enemy_listen()
                     self.state = self.STATE_LIGHTDOWN
-                    Sound.fadeout(1000)
-
+                    self.system.sounds.fadeout('rock', 1000)
 
         if self.r1 >= self.r_limit:
             self.r1 = self.r_limit
             self.state = self.STATE_LIGHTDOWN
-            Sound.fadeout(1000)
+            self.system.sounds.fadeout('rock', 1000)
 
 
     def update(self):
