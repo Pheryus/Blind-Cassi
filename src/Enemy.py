@@ -70,9 +70,7 @@ class Enemy(GameObject):
     def update(self):
         self.last_pos = self.dest.topleft
 
-        if self.vision_field():
-            print("aqui")
-        elif self.listen():
+        if self.vision_field() or self.listen():
             self.sanity_drop()
             self.target = Point(self.player_ref.rect.center)
             self.state = self.STATE_PURSUE
