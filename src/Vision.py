@@ -62,7 +62,6 @@ class Vision(GameObject):
 
                     self.player_ref.state = self.player_ref.STATE_PLAYING
 
-                    self.player_ref.current_animation_name = self.player_ref.instruments[self.player_ref.instrument_index][0]
                     self.position = Point(self.player_ref.rect.center) #- self.system.camera.topleft
                     self.state = self.STATE_LIGHTUP
                     self.dest.center = self.position

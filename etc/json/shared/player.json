@@ -1,9 +1,9 @@
 {
-    "width": 640,
-    "height": 1200,
-    "tilewidth": 160,
-    "tileheight": 240,
-    "tilecount": 17,
+    "width": 576,
+    "height": 480,
+    "tilewidth": 96,
+    "tileheight": 96,
+    "tilecount": 30,
     "animations": {
         "walking_down": {
             "time": 100,
@@ -37,10 +37,20 @@
         "time" : 20,
         "tiles" : [15]
       },
-      "playing" : {
-        "time" : 20,
-        "tiles" : [16]
+      "keyboard" : {
+        "time" : 100,
+        "tiles" : [18,19]
+      },
+      "electric_guitar" : {
+        "time" : 100,
+        "tiles" : [20,21]
+      },
+      "guitar" : {
+        "time" : 100,
+        "tiles" : [22, 23]
       }
 
-    }
 }
+
+}
+

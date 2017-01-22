@@ -71,6 +71,7 @@ class Player(GameObject):
     def movement(self):
 
         if self.state == self.STATE_PLAYING:
+            self.current_animation_name = self.get_instrument()[0]
             return
 
         self.last_pos = self.dest.topleft

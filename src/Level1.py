@@ -72,6 +72,12 @@ class Level1(Scene):
         else:
             self.game_objects.append(MusicIcon(game_data))
 
+        if shared.get('instrument'):
+            self.game_objects.append(shared['instrument'])
+        else:
+            self.game_objects.append(Instrument(game_data))
+
+
         self.tilemap = TileMap(self.name, game_data)
         Scene.start(self, game_data)
         self.system.camera_target = self.get_gos_with_tag('player')[0]
@@ -126,6 +132,6 @@ class Level1(Scene):
         if index is not None:
             self.system.swap_scene(self.shared['scenes'][index]())
 
-            for name in ('player', 'music', 'brain', 'musicicon'):
+            for name in ('player', 'music', 'brain', 'musicicon', 'instrument'):
                 if not self.shared.get(name):
                     self.shared[name] = self.get_gos_with_tag(name)[0]
