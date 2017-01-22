@@ -174,7 +174,7 @@ class Player(GameObject):
                     break
 
     def update(self):
-
+        print(self.rect)
         self.regain_sanity()
 
         self.check_sanity()
