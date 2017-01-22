@@ -1,5 +1,6 @@
 import pygame
 
+from SoundAnimation import SoundAnimation
 from engine import GameObject
 from engine import Point
 
@@ -75,6 +76,7 @@ class Vision(GameObject):
             self.r1 = self.r2 = 0
             self.state = self.STATE_COOLDOWN
             self.dest = pygame.Rect(0, 0, 0, 0)
+            self.player_ref.state = self.player_ref.STATE_DOWN
 
     def lightup(self):
 
@@ -88,7 +90,7 @@ class Vision(GameObject):
 
         for event in self.system.get_events():
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE:
+                if event.key == self.player_ref.CONTROL["play_song"]:
                     self.state = self.STATE_LIGHTDOWN
 
                     self.system.sounds.fadeout(self.player_ref.instruments[self.player_ref.instrument_index][0], self.cooldown_time)
@@ -122,6 +124,8 @@ class Vision(GameObject):
 
         elif self.state is self.STATE_COOLDOWN:
             self.cooldown()
+
+        print(self.state)
 
         for event in self.system.get_events():
             if event.type == pygame.KEYDOWN:

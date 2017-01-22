@@ -79,4 +79,4 @@ class TextureSpec:
         try:
             return self.specs[image]['animations'][name]
         except:
-            raise Exception('Animação '+ name + ' de ' + image + 'não carregada!')
+            raise Exception('Animação '+ name + ' de ' + image + ' não carregada!')
