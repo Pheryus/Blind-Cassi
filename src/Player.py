@@ -20,7 +20,6 @@ class Player(GameObject):
 
     CONSTANT_SPEED = 10 * 60
 
-    
 
     CONTROL = {
         "action" : lambda : pygame.key.get_pressed()[pygame.K_w],
@@ -43,7 +42,7 @@ class Player(GameObject):
         GameObject.__init__(self, "hero", game_data)
 
         self.instrument_index = 2
-        self.instruments = [["keyboard", False], ["guitar", True], ["electric_guitar", False]]
+        self.instruments = [["keyboard", False], ["guitar", False], ["electric_guitar", True]]
 
         self.time = 0
         self.max_sanity = 100
@@ -232,10 +231,16 @@ class Instrument (GameObject):
 
         self.animation_names = ["guitar", "electric_guitar", "keyboard"]
 
-        GameObject.__init__(self, "instruments", game_data)
+        GameObject.__init__(self, "interface_instruments", game_data)
         self.fixed = True
         self.tags.append("instrument")
         self._layer = 3
-        self.current_animation_name = "guitar"
-        self.dest = Rect(1800, 900, 0, 0)
-        self.scale = 1
+        self.current_animation_name = "electric_guitar"
+        self.dest = Rect(1600, 630, 0, 0)
+        self.scale = 3
+
+    def render(self):
+
+        self.system.blit("Interface", Rect(1500, 600, 128, 128), fixed=True, scale=4)
+
+        GameObject.render(self)

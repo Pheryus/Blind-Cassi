@@ -1,8 +1,8 @@
 {
-    "width": 276,
-    "height": 52,
-    "tilewidth": 92,
-    "tileheight": 52,
+    "width": 256,
+    "height": 128,
+    "tilewidth": 85,
+    "tileheight": 128,
     "tilecount": 3,
     "animations": {
         "guitar": {
@@ -11,11 +11,11 @@
         },
        "electric_guitar": {
             "time": 100,
-            "tiles": [2]
+            "tiles": [0]
         },
        "keyboard": {
             "time": 100,
-            "tiles": [0]
+            "tiles": [2]
         }
     }
 }
