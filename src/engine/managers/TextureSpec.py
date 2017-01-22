@@ -4,7 +4,7 @@ import json
 from pygame import Rect
 
 TEXTURESPEC_PATH = "etc/json/"
-SHARED_FOLDER = TEXTURESPEC_PATH + "shared/"
+SHARED_FOLDER = "shared/"
 
 
 class TextureSpec:

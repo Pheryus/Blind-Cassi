@@ -14,6 +14,9 @@ class Vision(GameObject):
     def __init__(self, game_data):
         GameObject.__init__(self, None, game_data)
 
+
+        self.game_data = game_data
+
         self.vel_expansion = 400
         self.tags.append("music")
         self.surface = pygame.Surface((1920, 1080)).convert_alpha()
@@ -45,19 +48,30 @@ class Vision(GameObject):
     def darkness(self):
         for event in self.system.get_events():
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == self.player_ref.CONTROL["play_song"]:
+
+                    destino = Point(self.player_ref.dest.x - self.player_ref.rect.w, self.player_ref.dest.y - self.player_ref.rect.h)
+
+                    self.scene.game_objects.append(SoundAnimation(self.game_data, destino))
+                    self.scene.layers.add(self.scene.game_objects[-1])
+
                     #self.position = Point(960, 540)
+
+                    self.player_ref.state = self.player_ref.STATE_PLAYING
+
+                    self.player_ref.current_animation_name = self.player_ref.instruments[self.player_ref.instrument_index][0]
                     self.position = Point(self.player_ref.rect.center) #- self.system.camera.topleft
                     self.state = self.STATE_LIGHTUP
                     self.dest.center = self.position
                     #self.dest.size = Point(self.r_limit, self.r_limit) * 2
                     ##################
-                    self.system.sounds.play('guitarra')
+                    self.system.sounds.play(self.player_ref.instruments[self.player_ref.instrument_index][0])
 
 
     def lightdown(self):
         self.r2 += self.vel_expansion * self.system.delta_time / 1000
         if self.r2 >= self.r1:
+            self.player_ref.current_animation_name = "stand_down"
             self.r1 = self.r2 = 0
             self.state = self.STATE_COOLDOWN
             self.dest = pygame.Rect(0, 0, 0, 0)
@@ -76,15 +90,15 @@ class Vision(GameObject):
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     self.state = self.STATE_LIGHTDOWN
-                    self.system.sounds.fadeout('guitarra', 1000)
-                    self.acumulated_time = self.cooldown_time
+
+                    self.system.sounds.fadeout(self.player_ref.instruments[self.player_ref.instrument_index][0], self.cooldown_time)
 
         if self.r1 >= self.r_limit:
             self.r1 = self.r_limit
 
         if self.cooldown_time >= 3000:
             self.state = self.STATE_LIGHTDOWN
-            self.system.sounds.fadeout('guitarra', self.cooldown_time)
+            self.system.sounds.fadeout(self.player_ref.instruments[self.player_ref.instrument_index][0], self.cooldown_time)
 
     def cooldown(self):
         self.cooldown_time -= self.system.delta_time
@@ -96,7 +110,6 @@ class Vision(GameObject):
 
         if not self.player_ref:
             self.player_ref = self.scene.get_gos_with_tag("player")[0]
-
 
         if self.state is self.STATE_DARKNESS:
             self.darkness()
