@@ -63,7 +63,7 @@ class Player(GameObject):
         self.run = False
 
         self.sanity = self.max_sanity
-        self.sanity_per_second = 0.08
+        self.sanity_per_second = 0.015
         self.last_pos = self.dest.topleft
 
     def get_instrument(self):
@@ -175,11 +175,8 @@ class Player(GameObject):
                     break
 
     def update(self):
-        print(self.rect.x, self.rect.y)
-        if time.get_ticks() // 1000 % 60 != self.time:
-            self.regain_sanity()
-        else:
-            self.time = time.get_ticks()
+
+        self.regain_sanity()
 
         self.check_sanity()
         if not self.instrument_ref:

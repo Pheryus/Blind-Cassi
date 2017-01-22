@@ -70,7 +70,9 @@ class Enemy(GameObject):
     def update(self):
         self.last_pos = self.dest.topleft
 
-        if self.vision_field() or self.listen():
+        if self.vision_field():
+            print("aqui")
+        elif self.listen():
             self.sanity_drop()
             self.target = Point(self.player_ref.rect.center)
             self.state = self.STATE_PURSUE
@@ -91,7 +93,7 @@ class Enemy(GameObject):
                 else:
                     self.dest.y += self.normal(distance.y) * vel_frame
                     self.current_animation_name = "walking_up" if self.normal(
-                        distance.x) == -1 else "walking_down"
+                        distance.y) == -1 else "walking_down"
             if distance.x == 0 and distance.y == 0:
                 self.state = self.STATE_STANDBY
 
@@ -100,7 +102,6 @@ class Enemy(GameObject):
                 if self.current_animation_name == "walking_" + side:
                     self.current_animation_name = "stand_" + side
                     break
-
 
     def get_distance_to_player(self):
         return math.hypot(self.player_ref.rect.x - self.rect.x, self.player_ref.rect.y - self.rect.y)
