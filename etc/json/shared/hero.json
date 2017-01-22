@@ -1,0 +1,53 @@
+{
+    "width": 576,
+    "height": 480,
+    "tilewidth": 96,
+    "tileheight": 96,
+    "tilecount": 30,
+    "animations": {
+        "stand_up" : {
+          "time" : 10,
+          "tiles" : [12]
+        },
+        "stand_down" : {
+          "time" : 10,
+          "tiles" : [0]
+        },
+        "stand_left" : {
+          "time" : 10,
+          "tiles" : [6]
+        },
+        "stand_right" : {
+          "time" : 10,
+          "tiles" : [24]
+        },
+        "walking_left" : {
+          "time" : 100,
+          "tiles" : [6,7,8,9,10,11]
+        },
+        "walking_right" : {
+          "time" : 100,
+          "tiles" : [24,24,25,26,27,28]
+        },
+        "walking_up" : {
+          "time" : 100,
+          "tiles" : [12,13,14,15,16,17]
+        },
+        "walking_down" : {
+          "time" : 100,
+          "tiles" : [0,1,2,3,4,5]
+        },
+        "keyboard": {
+            "time": 100,
+            "tiles": [18,19]
+        },
+       "electric_guitar": {
+            "time": 100,
+            "tiles": [20,21]
+        },
+       "guitar": {
+            "time": 100,
+            "tiles": [22, 23]
+        }
+    }
+}

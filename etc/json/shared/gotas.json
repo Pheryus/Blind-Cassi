@@ -1,0 +1,13 @@
+{
+    "width": 320,
+    "height": 192,
+    "tilewidth": 64,
+    "tileheight": 64,
+    "tilecount": 15,
+    "animations": {
+        "gota" : {
+          "time" : 60,
+          "tiles" : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+        }
+    }
+}
