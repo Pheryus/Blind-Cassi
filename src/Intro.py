@@ -8,6 +8,7 @@ from engine import Scene
 class Intro(Scene):
 
     def start(self, game_data):
+        self.movie = False
         self.imgs = "blind_"
         self.index = 1
         self.start_time = pygame.time.get_ticks()
@@ -15,6 +16,9 @@ class Intro(Scene):
         self.state = self.STATE_FINISHED
 
     def update(self):
+        for e in self.system.get_events():
+            if e.type is pygame.KEYDOWN and e.key == pygame.K_RETURN:
+                self.movie = True
         self.index = (pygame.time.get_ticks() - self.start_time) // 5000 + 1
         if self.index == 6:
             self.index = 5

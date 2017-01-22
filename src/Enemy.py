@@ -23,8 +23,9 @@ class Enemy(GameObject):
         self.animation_names = list()
         for side in ('up', 'down', 'left', 'right'):
             self.animation_names += ["walking_" + side, "stand_" + side]
-        GameObject.__init__(self, "monster_" + type_, game_data)
+        GameObject.__init__(self, "monster_" + type_ + "_angry", game_data)
 
+        self.type = type_
         self.tags.append(type_)
         self._layer = 5
         self.current_animation_name = 'stand_down'
@@ -100,6 +101,8 @@ class Enemy(GameObject):
                 if self.current_animation_name == "walking_" + side:
                     self.current_animation_name = "stand_" + side
                     break
+
+        GameObject.update(self)
 
     def get_distance_to_player(self):
         return math.hypot(self.player_ref.rect.x - self.rect.x, self.player_ref.rect.y - self.rect.y)
