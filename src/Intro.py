@@ -13,7 +13,6 @@ class Intro(Scene):
         self.index = 1
         self.start_time = pygame.time.get_ticks()
         Scene.start(self, game_data)
-        self.state = self.STATE_FINISHED
 
     def update(self):
         for e in self.system.get_events():
@@ -26,7 +25,10 @@ class Intro(Scene):
         Scene.update(self)
 
     def render(self):
-        self.system.blit(self.imgs + str(self.index), pygame.Rect((0, 0), self.screen_size))
+        if self.movie:
+            self.system.blit(self.imgs + str(self.index), pygame.Rect((0, 0), self.screen_size))
+        else:
+            self.system.blit('tela_inicial', pygame.Rect((0,0),self.screen_size))
 
     def finish(self):
         self.system.swap_scene(Floresta())
