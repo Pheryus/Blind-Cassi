@@ -12,8 +12,8 @@ class TileMap:
 
         self.name = name
         self.layers = list()
-        self.load_json(TEXTURESPEC_PATH + self.game_data['scene'].name + "/" + name + ".json")
         self.graph = None
+        self.load_json(TEXTURESPEC_PATH + self.game_data['scene'].name + "/" + name + ".json")
         for layer in self.layers:
             self.game_data['scene'].layers.add(*layer, layer=self.layers.index(layer))
 
@@ -116,37 +116,42 @@ class TileMap:
     def get_shortest_path(self, ini, fim):
         ini = Point(ini[0] // self.tile_width, ini[1] // self.tile_height).int()
         fim = Point(fim[0] // self.tile_width, fim[1] // self.tile_height).int()
-        if not self.graph[fim.y][fim.x]:
+        if not self.graph[fim.y][fim.x] or not self.graph[ini.y][ini.x]:
             return []
 
         queue = [ini]
+        labelize = lambda p: str(p.x).rjust(3, '0') + str(p.y).rjust(3, '0')
         inside = lambda p: p.x in range(self.width) and p.y in range(self.height)
         dic = {'visited': False, 'distance': float('inf'), 'previous': None}
-        spt = {ini: dic.copy()}
-        spt[ini]['distance'] = 0
+        spt = {labelize(ini): dic.copy()}
+        spt[labelize(ini)]['distance'] = 0
         vizinhos = (Point(-1, 0), Point(0, 1), Point(1, 0), Point(0, -1))
 
         while len(queue) > 0:
             pos = queue.pop(0)
             if pos == fim:
+                # queue.clear()
+                # break
                 continue
-            spt[pos]['visited'] = True
+            lpos = labelize(pos)
+            spt[lpos]['visited'] = True
             for viz in vizinhos:
                 viz = pos + viz
-                if inside(viz):
-                    if not spt.get(viz):
-                        spt[viz] = dic.copy()
-                    elif spt[viz]['visited']:
+                lviz = labelize(viz)
+                if inside(viz) and self.graph[viz.y][viz.x]:
+                    if not spt.get(lviz):
+                        spt[lviz] = dic.copy()
+                    elif spt[lviz]['visited']:
                         continue
-                    if spt[pos]['distance'] + 1 < spt[viz]['distance']:
-                        spt[viz]['distance'] = spt[pos]['distance'] + 1
-                        spt[viz]['previous'] = pos
+                    if spt[lpos]['distance'] + 1 < spt[lviz]['distance']:
+                        spt[lviz]['distance'] = spt[lpos]['distance'] + 1
+                        spt[lviz]['previous'] = pos
                         if queue.count(viz) == 0:
                             queue.append(viz)
 
         pos = fim
         while pos != ini:
-            queue.append(pos)
-            pos = spt[pos]['previous']
+            queue.append(Point(pos.x * self.tile_width + self.tile_width/2, pos.y * self.tile_height + self.tile_height/2).int())
+            pos = spt[labelize(pos)]['previous']
         queue.reverse()
         return queue

@@ -38,3 +38,7 @@ def distance_pt_rect(point, rect):
     dx = max(min(point[0], rect.right), rect.left)
     dy = max(min(point[1], rect.bottom), rect.top)
     return math.hypot(point[0] - dx, point[1] - dy)
+
+def steering_seek(pos, vel, tgt):
+    des_vel = (Point(tgt) - pos).normalize() * vel.length()
+    return des_vel - vel

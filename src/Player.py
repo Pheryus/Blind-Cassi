@@ -20,7 +20,7 @@ class Player(GameObject):
 
     CONSTANT_SPEED = 10 * 60
 
-    
+
 
     CONTROL = {
         "action" : lambda : pygame.key.get_pressed()[pygame.K_w],
@@ -176,7 +176,7 @@ class Player(GameObject):
 
     def update(self):
 
-        if time.get_ticks() / 1000 % 60 != self.time:
+        if time.get_ticks() // 1000 % 60 != self.time:
             self.regain_sanity()
         else:
             self.time = time.get_ticks()

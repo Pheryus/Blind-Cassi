@@ -245,6 +245,9 @@ class Point:
         """
         return "<Point({x}, {y})>".format(x=self.x, y=self.y)
 
+    def __lt__(self, other):
+        return  self.length() < other.length()
+
     def length(self):
         """
         Trata o objeto como se fosse um vetor geométrico 2D e retorna seu

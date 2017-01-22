@@ -36,7 +36,11 @@ class Texture:
                 # testa se a extensão é uma dessas 3
                 if extension in FORMATS_SUPPORTED:
                     # carrega a imagem e põe no dicionario
-                    self.surfaces[name] = image.load(self.path + folder + file).convert_alpha()
+                    surface = image.load(self.path + folder + file)
+                    if surface.get_alpha() is not None:
+                        self.surfaces[name] = surface.convert_alpha()
+                    else:
+                        self.surfaces[name] = surface.convert()
                     self.masks[name] = mask.from_surface(self.surfaces[name])
 
     def unload(self, folder):

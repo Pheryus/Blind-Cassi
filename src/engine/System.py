@@ -319,18 +319,15 @@ class System:
                 kargs['y'] -= self.camera.y
 
         if name == "rectangle":
-            pygame.gfxdraw.rectangle(self.screen, kargs['rect'], kargs['color'])
+            pygame.draw.rect(self.screen, kargs['color'], kargs['rect'], width=1)
         elif name == "box":
-            pygame.gfxdraw.box(self.screen, kargs['rect'], kargs['color'])
+            pygame.draw.rect(self.screen, kargs['color'], kargs['rect'])
         elif name == "circle":
-            pygame.gfxdraw.circle(self.screen, kargs['x'], kargs['y'],
-                                  kargs['r'], kargs['color'])
-        elif name == "aacicle":
-            pygame.gfxdraw.aacircle(self.screen, kargs['x'], kargs['y'],
-                                    kargs['r'], kargs['color'])
+            pygame.draw.circle(self.screen, kargs['color'], (kargs['x'], kargs['y']),
+                                  kargs['r'])
         elif name == "filled_circle":
-            pygame.gfxdraw.filled_circle(self.screen, kargs['x'], kargs['y'],
-                                         kargs['r'], kargs['color'])
+            pygame.draw.circle(self.screen, kargs['color'], (kargs['x'], kargs['y']),
+                                         kargs['r'], width=1)
 
     def get_events(self):
         """
