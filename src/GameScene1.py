@@ -21,19 +21,20 @@ class GameScene1(Scene):
 
 
     def start(self, game_data):
-        #self.game_objects
-        self.game_objects.append(Vision(game_data))
-        self.game_objects.append(Player(game_data))
         self.game_objects.append(DebugInfo(game_data))
+        self.game_objects.append(Player(game_data))
+
+        self.game_objects.append(Vision(game_data))
         self.game_objects.append(Brain(game_data))
         self.game_objects.append(MusicIcon(game_data))
-
-        self.game_objects.append(Enemy(game_data, (500, 500)))
+        self.game_objects.append(Enemy("monster", (16 * 48, 25 * 48), game_data))
         self.game_objects.append(Instrument(game_data))
+
         self.tilemap = TileMap("mapa", game_data)
         Scene.start(self, game_data)
         self.system.camera_target = self.game_objects[1]
         self.system.camera_limits = pygame.Rect((0,0), self.tilemap.get_size())
+        self.system.camera_limits = pygame.Rect(0,0, 10000, 10000)
 
 class MusicIcon(GameObject):
     STATE_NO_MUSIC = 1,

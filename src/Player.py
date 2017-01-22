@@ -39,7 +39,7 @@ class Player(GameObject):
         self._layer = 2
         self.tags.append("player")
         self.instrument_ref = None
-        self.dest = pygame.Rect(83 * 48, 52 * 48, 0, 0)
+        self.dest = pygame.Rect(20 * 96, 20 * 96, 0, 0)
         self.scale = 0.75
         self.speed = self.CONSTANT_SPEED
         self.run = False
