@@ -23,7 +23,7 @@ class Enemy(GameObject):
         self.animation_names = list()
         for side in ('up', 'down', 'left', 'right'):
             self.animation_names += ["walking_" + side, "stand_" + side]
-        GameObject.__init__(self, "monster", game_data)
+        GameObject.__init__(self, "monster_" + type_, game_data)
 
         self.tags.append(type_)
         self._layer = 5
