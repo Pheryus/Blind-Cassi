@@ -83,8 +83,10 @@ class Enemy(GameObject):
     def sanity_drop(self):
 
         distance = self.get_distance_to_player()
+
         if distance == 0:
             distance = 0.1
+
         sanity = (self.AGGRO_AUDITION / distance ) * (self.system.delta_time / 1000) * self.SANITY_DRAIN_MIN
 
         if sanity > self.SANITY_DRAIN_MAX:
@@ -93,6 +95,7 @@ class Enemy(GameObject):
         self.player_ref.sanity -= sanity
 
         #self.scene.tilemap.get_shortest_path(Point(self.rect.center), Point(music_pos.rect.center))
+
     def render(self):
 
         #self.system.draw_geom("box", rect = self.sound_ref.rect, color = (0, 0, 255, 110))

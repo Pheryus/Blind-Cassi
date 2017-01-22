@@ -49,15 +49,15 @@ class GameObject(Sprite):
         if self.animation_dict.get(self.current_animation_name):
             self.animation = self.animation_dict[self.current_animation_name]
 
+
     def render(self):
         if self.animation:
             name = self.animation.render(self.dest, self.fixed, self.angle, self.scale)
-            if name != self.current_animation_name:
+            if name != self.current_animation_name and name:
                 self.animation_dict[name].reset()
                 self.current_animation_name = name
         else:
             self.system.blit(self.id, self.dest, self.src, self.fixed, self.angle, self.scale)
-
 
     def kill(self):
         self.alive = False

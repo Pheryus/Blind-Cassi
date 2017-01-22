@@ -48,11 +48,11 @@
          "opacity":1,
          "properties":
             {
-             "rigid ":true
+             "rigid":true
             },
          "propertytypes":
             {
-             "rigid ":"bool"
+             "rigid":"bool"
             },
          "type":"tilelayer",
          "visible":true,
