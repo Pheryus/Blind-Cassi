@@ -15,6 +15,7 @@ class MusicIcon(GameObject):
         self.dest = pygame.Rect(1920 - 122, 10, 112, 112)
         self.fixed = True
         self._layer = 10
+        self.tags.append("musicicon")
 
     def update(self):
         vision = self.scene.get_gos_with_tag('music')[0]
