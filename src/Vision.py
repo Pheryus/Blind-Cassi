@@ -15,7 +15,6 @@ class Vision(GameObject):
     def __init__(self, game_data):
         GameObject.__init__(self, None, game_data)
 
-
         self.game_data = game_data
 
         self.vel_expansion = 400
@@ -46,7 +45,7 @@ class Vision(GameObject):
         #r2
         pygame.draw.circle(self.surface, (0, 0, 0, 230), new_position, int(self.r2))
 
-        self.system.screen.blit(self.surface, (0, 0))
+        #self.system.screen.blit(self.surface, (0, 0))
         pass
 
     def darkness(self):
@@ -127,8 +126,6 @@ class Vision(GameObject):
 
         elif self.state is self.STATE_COOLDOWN:
             self.cooldown()
-
-        print(self.state)
 
         for event in self.system.get_events():
             if event.type == pygame.KEYDOWN:

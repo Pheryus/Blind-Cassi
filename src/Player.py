@@ -20,7 +20,7 @@ class Player(GameObject):
 
     CONSTANT_SPEED = 10 * 60
 
-
+    
 
     CONTROL = {
         "action" : lambda : pygame.key.get_pressed()[pygame.K_w],
@@ -48,7 +48,7 @@ class Player(GameObject):
         self.time = 0
         self.max_sanity = 100
         self.state = self.STATE_LEFT
-        self._layer = 2
+        self._layer = 5
         self.tags.append("player")
         self.current_animation_name = 'walking'
 
@@ -70,6 +70,10 @@ class Player(GameObject):
         return self.instruments[self.instrument_index]
 
     def movement(self):
+
+        if self.state == self.STATE_PLAYING:
+            return
+
         self.last_pos = self.dest.topleft
 
         if self.CONTROL["run"]():
@@ -82,9 +86,6 @@ class Player(GameObject):
         move = False
 
         if self.CONTROL["left"]():
-            #TODO
-            if self.state == self.STATE_PLAYING:
-                pass
             move = True
             self.dest[0] -= self.speed
             if self.state in (self.STATE_LEFT, self.STATE_WALKING_LEFT):
@@ -161,6 +162,7 @@ class Player(GameObject):
                         self.system.sounds.play("cancel")
                     self.instrument_ref.current_animation_name = self.instruments[self.instrument_index][0]
 
+
     def check_action_button(self):
 
         if self.can_get_item and self.CONTROL["action"]():
@@ -172,10 +174,8 @@ class Player(GameObject):
                     self.can_get_item = None
                     break
 
-
-
     def update(self):
-
+        print(self.rect.x, self.rect.y)
         if time.get_ticks() // 1000 % 60 != self.time:
             self.regain_sanity()
         else:

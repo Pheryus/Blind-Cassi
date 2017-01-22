@@ -26,7 +26,7 @@ class Enemy(GameObject):
         GameObject.__init__(self, "monster", game_data)
 
         self.tags.append(type_)
-        self._layer = 2
+        self._layer = 5
         self.current_animation_name = 'stand_down'
 
         self.dest = pygame.Rect(pos[0], pos[1], 0, 0)
@@ -46,7 +46,6 @@ class Enemy(GameObject):
         self.state = self.STATE_STANDBY
         self.waypoints = []
         self.vel = 250
-
         self.normal = lambda x: x / abs(x)
 
     def listen(self):
@@ -79,14 +78,14 @@ class Enemy(GameObject):
         if self.state == self.STATE_PURSUE:
             distance = self.target - self.dest.center
             vel_frame = self.vel * self.system.delta_time / 1000
-            if distance.x:
+            if distance.x != 0:
                 if abs(distance.x) <= vel_frame:
                     self.dest.x = self.target.x - self.rect.w // 2
                 else:
                     self.dest.x += self.normal(distance.x) * vel_frame
                     self.current_animation_name = "walking_left" if self.normal(
                         distance.x) == -1 else "walking_right"
-            if distance.y:
+            if distance.y != 0:
                 if abs(distance.y) <= vel_frame:
                     self.dest.y = self.target.y - self.rect.h // 2
                 else:
