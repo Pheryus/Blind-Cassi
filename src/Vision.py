@@ -80,7 +80,6 @@ class Vision(GameObject):
             self.player_ref.state = self.player_ref.STATE_DOWN
 
     def lightup(self):
-
         expansion = self.vel_expansion * self.system.delta_time / 1000
         self.cooldown_time += self.system.delta_time
 

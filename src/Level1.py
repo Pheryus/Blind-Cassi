@@ -120,6 +120,10 @@ class Level1(Scene):
                 self.state = self.STATE_FINISHED
                 self.previous = None
 
+        if player.sanity <= 0:
+            self.states = self.STATE_FINISHED
+            self.dead = True
+
     def finish(self):
         index = None
         if self.dead:

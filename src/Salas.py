@@ -29,14 +29,14 @@ class Floresta(Level1):
     def start(self, game_data):
         self.previous = "up"
         self.next = "left"
-        self.player_pos = Point(22, 0)
+        self.player_pos = Point(27, 9)
         self.enemies_dict = {
             "guitar": [],
-            "eletric_guitar": [Point(21, 2)],
-            "keyboard": []
+            "eletric_guitar": [],
+            "keyboard": [Point(21, 5)]
         }
-        self.instrument = None
-        self.instrument_pos = Point(22, 1)
+        self.instrument = "keyboard"
+        self.instrument_pos = Point(27, 10)
 
         Level1.start(self, game_data)
 
@@ -50,11 +50,12 @@ class Masmorra(Level1):
         self.next = "up"
         self.player_pos = Point(47, 21)
         self.enemies_dict = {
-            "guitar": [],
-            "eletric_guitar": [Point(46, 23)],
+            "guitar": [Point(46, 23)],
+            "eletric_guitar": [],
             "keyboard": []
         }
 
+        self.instrument = None
         Level1.start(self, game_data)
 
 class Gelo(Level1):
@@ -72,4 +73,5 @@ class Gelo(Level1):
             "keyboard": []
         }
 
+        self.instrument = None
         Level1.start(self, game_data)
