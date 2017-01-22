@@ -23,7 +23,7 @@ class Level1(Scene):
         self.game_objects.append(Vision(game_data))
         self.game_objects.append(Player(game_data, (30 * 96, 30 * 96)))
         self.game_objects.append(Instrument(game_data))
-        #self.game_objects.append(DebugInfo(game_data))
+
         self.game_objects.append(Brain(game_data))
         self.game_objects.append(MusicIcon(game_data))
 
@@ -35,10 +35,6 @@ class Level1(Scene):
         self.game_objects.append(Enemy("monster", (2162, 442), game_data))
 
         self.game_objects.append(Door(game_data, "keyboard", (95, 1266), False))
-
-        #self.game_objects.append(Instrument(game_data))
-
-        #self.game_objects.append(Instrument_floor(game_data, "keyboard", (83 * 47, 52 * 47)))
 
         self.tilemap = TileMap("Floresta", game_data)
         Scene.start(self, game_data)
