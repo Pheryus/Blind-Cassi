@@ -32,7 +32,7 @@ class Floresta(Level1):
         self.player_pos = Point(22, 0)
         self.enemies_dict = {
             "guitar": [],
-            "eletric_guitar": [],
+            "eletric_guitar": [Point(22, 2)],
             "keyboard": []
         }
         self.instrument = None

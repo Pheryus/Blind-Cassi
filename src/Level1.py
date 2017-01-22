@@ -34,7 +34,7 @@ class Level1(Scene):
             Sound.play("background_music.ogg")
         for tipo, pos_list in self.enemies_dict.items():
             for pos in pos_list:
-                self.game_objects.append(Enemy(tipo, pos, game_data))
+                self.game_objects.append(Enemy(tipo, pos * 96, game_data))
 
         self.dead = False
         shared = game_data['shared']

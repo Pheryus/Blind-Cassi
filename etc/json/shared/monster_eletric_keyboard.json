@@ -1,0 +1,42 @@
+{
+    "width": 384,
+    "height": 384,
+    "tilewidth": 96,
+    "tileheight": 96,
+    "tilecount": 16,
+    "animations": {
+        "walking_down": {
+            "time": 100,
+            "tiles": [8, 9, 10, 11]
+        },
+       "walking_up": {
+            "time": 100,
+            "tiles": [4, 5, 6, 7]
+        },
+       "walking_left": {
+            "time": 100,
+            "tiles": [0, 1, 2, 3]
+        },
+       "walking_right": {
+            "time": 100,
+            "tiles": [12, 13, 14, 15]
+        },
+      "stand_up" : {
+        "time" : 20,
+        "tiles" : [4]
+      },
+      "stand_down" : {
+        "time" : 20,
+        "tiles" : [7]
+      },
+      "stand_left" : {
+        "time" : 20,
+        "tiles" : [1]
+      },
+      "stand_right" : {
+        "time" : 20,
+        "tiles" : [12]
+      }
+
+    }
+}
