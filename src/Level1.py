@@ -1,6 +1,7 @@
 import pygame
 
 from Brain import Brain
+from Door import Door
 from Instrument_floor import Instrument_floor
 from MusicIcon import MusicIcon
 from engine import Scene, GameObject, Point, Physics
@@ -22,7 +23,7 @@ class Level1(Scene):
         self.game_objects.append(Vision(game_data))
         self.game_objects.append(Player(game_data, (30 * 96, 30 * 96)))
         self.game_objects.append(Instrument(game_data))
-        self.game_objects.append(DebugInfo(game_data))
+        #self.game_objects.append(DebugInfo(game_data))
         self.game_objects.append(Brain(game_data))
         self.game_objects.append(MusicIcon(game_data))
 
@@ -33,6 +34,7 @@ class Level1(Scene):
         self.game_objects.append(Enemy("electric_guitar", (2016, 373), game_data))
         self.game_objects.append(Enemy("monster", (2162, 442), game_data))
 
+        self.game_objects.append(Door(game_data, "keyboard", (95, 1266), False))
 
         #self.game_objects.append(Instrument(game_data))
 

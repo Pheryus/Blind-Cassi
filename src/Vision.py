@@ -45,7 +45,7 @@ class Vision(GameObject):
         #r2
         pygame.draw.circle(self.surface, (0, 0, 0, 230), new_position, int(self.r2))
 
-        #self.system.screen.blit(self.surface, (0, 0))
+        self.system.screen.blit(self.surface, (0, 0))
         pass
 
     def darkness(self):

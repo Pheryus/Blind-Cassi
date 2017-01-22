@@ -234,7 +234,7 @@ class Instrument (GameObject):
         GameObject.__init__(self, "interface_instruments", game_data)
         self.fixed = True
         self.tags.append("instrument")
-        self._layer = 3
+        self._layer = 12
         self.current_animation_name = "electric_guitar"
         self.dest = Rect(1600, 630, 0, 0)
         self.scale = 3
