@@ -10,7 +10,7 @@ class Instrument_floor(GameObject):
 
     def __init__(self, game_data, instrument, pos):
         self.animation_names = ["keyboard", "guitar","electric_guitar"]
-
+        print("a")
         GameObject.__init__(self, "instruments", game_data)
 
         self.tags.append("instrument_left")
