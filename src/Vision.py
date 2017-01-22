@@ -37,6 +37,9 @@ class Vision(GameObject):
         pygame.draw.rect(self.surface, (0, 0, 0, 255), pygame.Rect(0,0, 1920, 1080))
         new_position = Point(self.player_ref.rect.center) - self.system.camera.topleft
 
+        #mini-circulo
+        pygame.draw.circle(self.surface, (0, 0, 0, 230), new_position, max(self.player_ref.rect.size))
+
         #r1
         pygame.draw.circle(self.surface, (0, 0, 0, 0), new_position, int(self.r1))
 
